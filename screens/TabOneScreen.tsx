@@ -7,8 +7,8 @@ import { Text, View } from '../components/Themed';
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <Text style={styles.title}>Zart Board</Text>
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.9)" />
       <EditScreenInfo path="/screens/TabOneScreen.js" />
     </View>
   );
@@ -19,9 +19,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#FEDEB7'
   },
   title: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 'bold',
   },
   separator: {
