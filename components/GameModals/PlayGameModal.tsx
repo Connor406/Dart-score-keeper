@@ -1,8 +1,10 @@
-import React from "react";
-import { Text, View, Modal, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import React, { useContext } from "react";
+import { Text, View, Modal, TouchableOpacity, StyleSheet } from 'react-native';
 import window from '../../constants/Layout';
 import { faWindowClose } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import GlobalState from '../GlobalComponents/GlobalState';
+import OhOneGame from './OhOneGame';
 
 interface Props {
   isOpen: boolean;
@@ -13,15 +15,15 @@ const PlayGame: React.FC<Props> = ({
   isOpen,
   setIsOpen,
  }) => {
+  const [ state, setState ] = useContext(GlobalState);
 
   return (
     <Modal visible={isOpen} onRequestClose={() => setIsOpen(false)}>
-      <View style={{height: 18}} />
-      <TouchableOpacity style={styles.close} onPress={() => setIsOpen(false)} >
-        <FontAwesomeIcon icon={faWindowClose} size={36} />
-      </TouchableOpacity>
-      <View style={styles.test}>
-        <Text style={{color: 'green'}} >Modal is open!</Text>
+      <View >
+        <TouchableOpacity style={styles.close} onPress={() => setIsOpen(false)} >
+          <FontAwesomeIcon icon={faWindowClose} size={30} />
+        </TouchableOpacity>
+        <OhOneGame />
       </View>
     </Modal>
   );
@@ -36,6 +38,8 @@ const styles = StyleSheet.create({
   },
   close: {
     alignSelf: 'flex-end',
+    top: 25,
+    padding: 10,
   }
 })
 

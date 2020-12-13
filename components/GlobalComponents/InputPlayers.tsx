@@ -1,43 +1,39 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, TextInput, Dimensions, Shape } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { MainRed } from '../../ColorVars';
+import GlobalState from '../GlobalComponents/GlobalState';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function InputPlayers() {
-  const [value, onChangeText] = useState('');
-  const [playerCount, incrementPlayers] = useState(1);
-  const [ player1, setPlayer1 ] = useState('')
-  const [ player2, setPlayer2 ] = useState('')
-  const [ player3, setPlayer3 ] = useState('')
-  const [ player4, setPlayer4 ] = useState('')
-
-  console.log(player1, player2, player3, player4, playerCount);
+  const [ state, setState ] = useContext(GlobalState);
+  const [ value, onChangeText ] = useState('');
 
   const addPlayer = () => {
-    if (playerCount < 4) {
-      incrementPlayers(playerCount + 1);
+    if (state.playerCount < 4) {
+      //incrementPlayers(playerCount + 1);
+      setState((state: any) => ({...state, playerCount: state.playerCount + 1}))
     }
   };
 
   const removePlayer = () => {
-    if (playerCount >= 2) {
-      incrementPlayers(playerCount - 1);
+    if (state.playerCount >= 2) {
+      setState((state: any) => ({...state, playerCount: state.playerCount - 1}))
     }
   };
 
   const handleSetPlayerName = (index: number, text: any) => {
     if (index === 0) {
-      setPlayer1(text)
+      setState({...state, player1: text})
     } else if (index === 1) {
-      setPlayer2(text)
+      setState({...state, player2: text})
     } else if (index === 2) {
-      setPlayer3(text)
+      setState({...state, player3: text})
     } else if (index === 3) {
-      setPlayer4(text)
+      setState({...state, player4: text})
     } else {
       console.log('Error inputting player names')
     }
@@ -46,7 +42,7 @@ export default function InputPlayers() {
   return (
     <View>
       <View style={styles.container} >
-        {[...Array(playerCount)].map((value: string, index: number) => (
+        {[...Array(state.playerCount)].map((value: string, index: number) => (
           <View  key={index}>
             <TextInput
               value={value}
@@ -55,18 +51,19 @@ export default function InputPlayers() {
               placeholder={`Player ${index + 1}`}
               style={styles.playerBox}
               key={index}
+              maxLength={9}
             />
         </View>
         ))}
       </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={addPlayer} >
-            <FontAwesomeIcon style={[styles.button, {opacity: playerCount >= 4 ? 0 : 1}]} icon={faPlus} />
-            <Text style={[styles.button, {opacity: playerCount >= 4 ? 0 : 1}]}>Add Player</Text>
+            <FontAwesomeIcon style={[styles.button, {opacity: state.playerCount >= 4 ? 0 : 1}]} icon={faPlus} />
+            <Text style={[styles.button, {opacity: state.playerCount >= 4 ? 0 : 1}]}>Add Player</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={removePlayer}  >
-            <FontAwesomeIcon style={[styles.button, {opacity: playerCount > 1 ? 1 : 0}]} icon={faMinus} />
-            <Text style={[styles.button, {opacity: playerCount > 1 ? 1 : 0}]}>Remove Player</Text>
+            <FontAwesomeIcon style={[styles.button, {opacity: state.playerCount > 1 ? 1 : 0}]} icon={faMinus} />
+            <Text style={[styles.button, {opacity: state.playerCount > 1 ? 1 : 0}]}>Remove Player</Text>
           </TouchableOpacity>
         </View>
       </View>
