@@ -25,7 +25,14 @@ export default function TabOneScreen() {
         <Picker 
         selectedValue={state.gameType} 
         style={{height: 0, width: 60}}
-        onValueChange={(itemValue, itemIndex) => setState(({...state, gameType: itemValue}))}
+        onValueChange={(itemValue, itemIndex) => setState(({
+          ...state, 
+          gameType: itemValue,
+          player1Score: itemValue,
+          player2Score: itemValue,
+          player3Score: itemValue,
+          player4Score: itemValue
+        }))}
         >
           <Picker.Item label='101' value='101' />
           <Picker.Item label='201' value='201' />

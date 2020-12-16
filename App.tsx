@@ -14,11 +14,12 @@ export default function App() {
     player2: 'Walrus',
     player3: 'Zebra',
     player4: 'T-Rex',
-    player1Score: 1,
-    player2Score: 2,
-    player3Score: 3,
-    player4Score: 4,
+    player1Score: 101,
+    player2Score: 101,
+    player3Score: 101,
+    player4Score: 101,
     playerCount: 1,
+    index: 0,
     gameType: 101,
   });
 

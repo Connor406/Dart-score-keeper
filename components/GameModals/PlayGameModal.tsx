@@ -5,6 +5,7 @@ import { faWindowClose } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import GlobalState from '../GlobalComponents/GlobalState';
 import OhOneGame from './OhOneGame';
+import { MainBrown } from "../../ColorVars";
 
 interface Props {
   isOpen: boolean;
@@ -19,7 +20,7 @@ const PlayGame: React.FC<Props> = ({
 
   return (
     <Modal visible={isOpen} onRequestClose={() => setIsOpen(false)}>
-      <View >
+      <View style={styles.page} >
         <TouchableOpacity style={styles.close} onPress={() => setIsOpen(false)} >
           <FontAwesomeIcon icon={faWindowClose} size={30} />
         </TouchableOpacity>
@@ -30,11 +31,10 @@ const PlayGame: React.FC<Props> = ({
 }
 
 const styles = StyleSheet.create({
-  test: {
+  page: {
+    backgroundColor: MainBrown,
     width: window.window.width,
     height: window.window.height,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   close: {
     alignSelf: 'flex-end',
