@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from 'react';
-import { Text, View, TouchableOpacity, TextInput, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, TouchableOpacity, TextInput, StyleSheet, Dimensions, Alert } from 'react-native';
 import { MainRed } from '../../ColorVars';
 import GlobalState from '../GlobalComponents/GlobalState';
+import { createTwoButtonAlert } from '../GlobalComponents';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -34,6 +35,13 @@ const OhOneGame = () => {
   }
 
   const deductScore = (score: number) => {
+    // Calls Alert if won/busted
+    if (playerScoreList[playerIndex] - score === 0) {
+      return createTwoButtonAlert(playerList[playerIndex], 'Won');
+    } else if (playerScoreList[playerIndex] - score < 0) {
+      return createTwoButtonAlert(playerList[playerIndex], 'Busted');
+    };
+    // Handles updating score in state / display
     if (playerIndex === 0 ) {
       setState({...state, player1Score: state.player1Score - score });
     } else if (playerIndex === 1) {
@@ -43,9 +51,23 @@ const OhOneGame = () => {
     } else if (playerIndex === 3) {
       setState({...state, player4Score: state.player4Score - score });
     } else {
-      console.log('damn')
+      console.log('Error on deductScore')
     }
   };
+
+  const undoScore = (score: number) => {
+    if (playerIndex === 0 ) {
+      setState({...state, player1Score: state.player1Score + score });
+    } else if (playerIndex === 1) {
+      setState({...state, player2Score: state.player2Score + score });
+    } else if (playerIndex === 2) {
+      setState({...state, player3Score: state.player3Score + score });
+    } else if (playerIndex === 3) {
+      setState({...state, player4Score: state.player4Score + score });
+    } else {
+      console.log('Error on undoScore')
+    }
+  }
 
   const selected = (player: any) => {
     if (playerIndex === playerList.indexOf(player)) {
@@ -89,12 +111,12 @@ const OhOneGame = () => {
         </View>
       </View>
       <View style={styles.inputContainer} >
-        <TextInput style={styles.scoreInput} clearButtonMode='always' onChangeText={value => setState({...state, score: Number(value)})} placeholder="Score" ></TextInput>
+        <TextInput style={styles.scoreInput} onSubmitEditing={() => deductScore(state.score)} keyboardType='number-pad' returnKeyType='done' clearButtonMode='always' onChangeText={value => setState({...state, score: Number(value)})} placeholder="Score" ></TextInput>
         <View style={styles.buttons} >
-          <TouchableOpacity onPress={() => deductScore(state.score)}  >
-            <Text style={styles.button} >Submit</Text>
+          <TouchableOpacity onPress={() => undoScore(state.score)} >
+            <Text style={styles.button} >Undo</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => incrementPlayer()}  >
+          <TouchableOpacity onPress={() => incrementPlayer() }  >
             <Text style={styles.button} >Next Player</Text>
           </TouchableOpacity>
         </View>
@@ -111,21 +133,24 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: MainRed,
     color: 'white',
+    textAlign: 'center',
     borderRadius: 15,
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    margin: 10,
-    justifyContent: 'center',
-    alignContent: 'center',
-    width: windowWidth * .4
+    paddingHorizontal: 18,
+    margin: 5,
+    width: windowWidth * .3,
   },
   buttons: {
-    flexDirection: 'column'
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 100,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+    marginTop: 20,
   },
   container: {
     flexWrap: 'wrap',
@@ -161,15 +186,12 @@ const styles = StyleSheet.create({
     display: 'none',
   },
   scoreInput: {
-    justifyContent: 'center',
-    alignSelf: 'center',
-    marginTop: 40,
     fontSize: 30,
     borderWidth: 1,
     paddingHorizontal: 40,
     paddingVertical: 10,
     borderRadius: 24,
-    width: windowWidth * .5
+    width: windowWidth * .5,
   }
 })
 
