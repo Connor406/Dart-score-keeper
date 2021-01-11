@@ -6,6 +6,7 @@ import InputPlayers from '../components/GlobalComponents/InputPlayers';
 import { MainRed, MainBrown } from '../ColorVars';
 import {Picker} from '@react-native-picker/picker';
 import PlayGame from '../components/GameModals/PlayGameModal';
+import Signup from '../components/Signup';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -18,9 +19,9 @@ export default function TabOneScreen() {
     <View style={styles.container}>
     <Text style={styles.title}>Zart Board</Text>
     <View style={styles.separator} lightColor="rgba(255,255,255,0.9)" darkColor="rgba(255,255,255,0.9)" />
-      <InputPlayers
-        
-      />
+      <Signup />
+      <InputPlayers/>
+
       <View style={styles.pickerContainer}>
         <Picker 
         selectedValue={state.gameType} 
